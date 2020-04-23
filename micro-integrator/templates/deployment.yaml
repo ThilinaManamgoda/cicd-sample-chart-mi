@@ -28,13 +28,13 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "micro-integrator.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      deployment: {{ template "fullname" . }}-micro-integrator
+      app: {{ template "fullname" . }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "micro-integrator.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        deployment: {{ template "fullname" . }}-micro-integrator
+        app: {{ template "fullname" . }}
     spec:
       {{ if .Values.wso2.centralizedLogging.enabled }}
       initContainers:

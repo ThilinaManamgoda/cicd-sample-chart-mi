@@ -26,5 +26,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "micro-integrator.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    deployment: {{ template "fullname" . }}-micro-integrator
+    app: {{ template "fullname" . }}
