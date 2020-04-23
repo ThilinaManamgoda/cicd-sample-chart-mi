@@ -28,13 +28,13 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: {{ template "fullname" . }}-micro-integrator
-      app: {{ template "fullname" . }}
+      deployment: {{ template "micro-integrator.fullname" . }}
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        deployment: {{ template "fullname" . }}-micro-integrator
-        app: {{ template "fullname" . }}
+        deployment: {{ template "micro-integrator.fullname" . }}
+        app: {{ .Release.Name }}
     spec:
       {{ if .Values.wso2.centralizedLogging.enabled }}
       initContainers:

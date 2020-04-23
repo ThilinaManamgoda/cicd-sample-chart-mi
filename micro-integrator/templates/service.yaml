@@ -26,5 +26,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    deployment: {{ template "fullname" . }}-micro-integrator
-    app: {{ template "fullname" . }}
+    deployment: {{ template "micro-integrator.fullname" . }}
+    app: {{ .Release.Name }}
