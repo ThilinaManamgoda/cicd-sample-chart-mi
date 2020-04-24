@@ -17,6 +17,9 @@ metadata:
   name: {{ include "micro-integrator.fullname" . }}
   namespace : {{ .Release.Namespace }}
   labels:
+    monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
+    deployment: {{ template "micro-integrator.fullname" . }}
+    app: {{ .Release.Name }}
 {{ include "micro-integrator.labels" . | indent 4 }}
 spec:
   type: ClusterIP
@@ -25,6 +28,10 @@ spec:
       targetPort: 8290
       protocol: TCP
       name: http
+    - port: 9201
+      targetPort: 9201
+      protocol: TCP
+      name: promitheus-metrics
   selector:
     deployment: {{ template "micro-integrator.fullname" . }}
     app: {{ .Release.Name }}

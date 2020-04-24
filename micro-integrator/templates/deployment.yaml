@@ -30,11 +30,13 @@ spec:
     matchLabels:
       deployment: {{ template "micro-integrator.fullname" . }}
       app: {{ .Release.Name }}
+      monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
   template:
     metadata:
       labels:
         deployment: {{ template "micro-integrator.fullname" . }}
         app: {{ .Release.Name }}
+        monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
     spec:
       {{ if .Values.wso2.centralizedLogging.enabled }}
       initContainers:
@@ -67,7 +69,11 @@ spec:
             - "-c"
             - |
               set -e
-              cp deployment.toml /home/wso2carbon/wso2mi-1.2.0/conf/ && ./docker-entrypoint.sh
+              cp deployment.toml /home/wso2carbon/wso2mi-1.2.0/conf/ && \
+              {{ if .Values.wso2.monitoring.enabled }}
+              cp micro-integrator.sh /home/wso2carbon/wso2mi-1.2.0/bin/ && \
+              {{end}}
+              ./docker-entrypoint.sh
           livenessProbe:
             exec:
               command:
@@ -97,10 +103,17 @@ spec:
           ports:
             - containerPort: 8290
               protocol: TCP
+            - containerPort: 9201
+              protocol: TCP
           volumeMounts:
             - name: wso2micro-integrator-conf
               mountPath: /home/wso2carbon/deployment.toml
               subPath: deployment.toml
+            {{ if .Values.wso2.monitoring.enabled }}
+            - name: wso2micro-integrator-bin-conf
+              mountPath: /home/wso2carbon/micro-integrator.sh
+              subPath: micro-integrator.sh
+            {{end}}
             {{ if .Values.wso2.centralizedLogging.enabled }}
             - name: shared-logs
               mountPath: /home/wso2carbon/wso2mi-1.2.0/repository/logs
@@ -145,6 +158,11 @@ spec:
         - name: wso2micro-integrator-conf
           configMap:
             name: wso2micro-integrator-conf
+        {{ if .Values.wso2.monitoring.enabled }}
+        - name: wso2micro-integrator-bin-conf
+          configMap:
+            name: wso2micro-integrator-bin-conf
+        {{end}}
         {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: shared-logs
           emptyDir: {}

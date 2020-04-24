@@ -69,3 +69,15 @@ wso2:
         host: wso2-elasticsearch-master
         username: "elastic"
         password: "changeme"
+  # Configurations for Prometheus monitoring
+  monitoring:
+    # Enable Prometheus monitoring. This will start Prometheus exporter and deploy Service monitors
+    # for JVM, JMX.
+    enabled: false
+    prometheus:
+      serviceMonitor:
+        # Prometheus Operator labels to identify Service monitors
+        labels:
+          release: monitoring
+      # Job name of the JMX events
+      jmxJobName: "jmx"

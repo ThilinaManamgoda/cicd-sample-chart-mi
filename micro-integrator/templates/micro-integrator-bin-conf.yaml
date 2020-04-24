@@ -11,12 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+{{ if .Values.wso2.monitoring.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: wso2micro-integrator-conf
+  name: wso2micro-integrator-bin-conf
   namespace : {{ .Release.Namespace }}
 data:
-  {{- (.Files.Glob "confs/micro-integrator/deployment.toml").AsConfig | nindent 2 }}
-
+  {{- (.Files.Glob "confs/micro-integrator/bin/micro-integrator.sh").AsConfig | nindent 2 }}
+{{end}}
