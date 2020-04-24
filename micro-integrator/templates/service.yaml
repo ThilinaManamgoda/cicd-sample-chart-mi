@@ -31,7 +31,7 @@ spec:
     - port: 9201
       targetPort: 9201
       protocol: TCP
-      name: promitheus-metrics
+      name: metrics
   selector:
     deployment: {{ template "micro-integrator.fullname" . }}
     app: {{ .Release.Name }}
