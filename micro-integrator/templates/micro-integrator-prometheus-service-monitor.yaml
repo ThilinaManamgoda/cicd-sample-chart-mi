@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-    name: micro-integrator-prometheus-serviceMonitor-{{ .Release.Name }}
+    name: micro-integrator-prometheus-service-monitor-{{ .Release.Name }}
     namespace: {{ .Release.Namespace }}
     labels:
         {{- range $key, $value := .Values.wso2.monitoring.prometheus.serviceMonitor.labels  }}
