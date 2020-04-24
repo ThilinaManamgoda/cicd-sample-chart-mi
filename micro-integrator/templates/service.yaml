@@ -17,7 +17,7 @@ metadata:
   name: {{ include "micro-integrator.fullname" . }}
   namespace : {{ .Release.Namespace }}
   labels:
-    monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
+    monitoring: {{ .Values.wso2.monitoring.prometheus.jmxJobName }}
     deployment: {{ template "micro-integrator.fullname" . }}
     app: {{ .Release.Name }}
 {{ include "micro-integrator.labels" . | indent 4 }}

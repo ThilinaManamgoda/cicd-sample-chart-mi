@@ -30,13 +30,13 @@ spec:
     matchLabels:
       deployment: {{ template "micro-integrator.fullname" . }}
       app: {{ .Release.Name }}
-      monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
+      monitoring: {{ .Values.wso2.monitoring.prometheus.jmxJobName }}
   template:
     metadata:
       labels:
         deployment: {{ template "micro-integrator.fullname" . }}
         app: {{ .Release.Name }}
-        monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
+        monitoring: {{ .Values.wso2.monitoring.prometheus.jmxJobName }}
     spec:
       {{ if .Values.wso2.centralizedLogging.enabled }}
       initContainers:
