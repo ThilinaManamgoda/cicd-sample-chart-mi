@@ -24,7 +24,7 @@ wso2:
       imageName: "wso2mi"
       imageTag: "1.2.0"
       # Number of deployment replicas
-      replicas: 1
+      replicas: 2
       # Minimum number of seconds for which a newly created pod should be ready without any of its containers crashing, for it to be considered available.
       minReadySeconds: 30
       strategy:
