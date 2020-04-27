@@ -1,4 +1,4 @@
-# Helm Chart for deployment of WSO2 API Microgateway 
+# Helm Chart for deployment of WSO2 Micro Integrator
 
 ## Contents
 
@@ -22,14 +22,15 @@ deployment patterns are compatible with NGINX Ingress Controller Git release [`n
   
 ## Quick Start Guide
 >In the context of this document, <br>
->* `KUBERNETES_HOME` will refer to a local copy of the [`wso2/kubernetes-microgateway`](https://github.com/wso2/kubernetes-microgateway/)
+>* `KUBERNETES_HOME` will refer to a local copy of the [`wso2/kubernetes-micro-integrator`](https://github.com/wso2
+>/kubernetes-micro-integrator/)
 Git repository. <br>
->* `HELM_HOME` will refer to `<KUBERNETES_HOME>/helm/microgateway`. <br>
+>* `HELM_HOME` will refer to `<KUBERNETES_HOME>/helm/micro-integrator`. <br>
 
-##### 1. Clone the Kubernetes Resources for WSO2 Identity Server Git repository.
+##### 1. Clone the Kubernetes Resources for WSO2 Micro Integrator Git repository.
 
 ```
-git clone https://github.com/wso2/kubernetes-microgateway.git
+git clone https://github.com/wso2/kubernetes-micro-integrator.git
 ```
 
 ##### 2. Provide configurations.
@@ -54,34 +55,32 @@ If you do not have active WSO2 subscription do not change the parameters `wso2.d
 |-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
 | `wso2.centralizedLogging.enabled`                                           | Enable Centralized logging for WSO2 components                                            | true                        |                                                                                         |                             |    
 | `wso2.centralizedLogging.logstash.imageTag`                                 | Logstash Sidecar container image tag                                                      | 7.2.0                       |  
+| `wso2.centralizedLogging.logstash.elasticsearch.host    `                   | Elasticsearch endpoint                                                                    | elastic                     |  
 | `wso2.centralizedLogging.logstash.elasticsearch.username`                   | Elasticsearch username                                                                    | elastic                     |  
 | `wso2.centralizedLogging.logstash.elasticsearch.password`                   | Elasticsearch password                                                                    | changeme                    |  
-| `wso2.centralizedLogging.logstash.indexNodeID.wso2ISNode`                   | Elasticsearch IS Node log index ID(index name: ${NODE_ID}-${NODE_IP})                     | wso2                        |
 
-###### Micro Gateway Configurations
+###### Micro Integrator Deployment Configurations
 
 | Parameter                                                                   | Description                                                                               | Default Value               |
 |-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
-| `wso2.deployment.wso2microgw.dockerRegistry`                                | Docker registry of the microgateway image                                                 | ""                          |
-| `wso2.deployment.wso2microgw.imageName`                                     | Image name for microgateway node                                                          | ""                          |
-| `wso2.deployment.wso2microgw.imageTag`                                      | Image tag for microgateway node                                                           | ""                          |
-| `wso2.deployment.wso2microgw.replicas`                                      | Number of replicas for microgateway node                                                  | 1                           |
-| `wso2.deployment.wso2microgw.minReadySeconds`                               | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 1  75                        |
-| `wso2.deployment.wso2microgw.strategy.rollingUpdate.maxSurge`               | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 1                           |
-| `wso2.deployment.wso2microgw.strategy.rollingUpdate.maxUnavailable`         | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                           |
-| `wso2.deployment.wso2microgw.livenessProbe.initialDelaySeconds`             | Initial delay for the live-ness probe for microgateway node                               | 40                           |
-| `wso2.deployment.wso2microgw.livenessProbe.periodSeconds`                   | Period of the live-ness probe for microgateway node                                       | 10                           |
-| `wso2.deployment.wso2microgw.readinessProbe.initialDelaySeconds`            | Initial delay for the readiness probe for microgateway node                               | 40                           |
-| `wso2.deployment.wso2microgw.readinessProbe.periodSeconds`                  | Period of the readiness probe for microgateway node                                       | 10                           |
-| `wso2.deployment.wso2microgw.imagePullPolicy`                               | Refer to [doc](https://kubernetes.io/docs/concepts/containers/images#updating-images)     | Always                       |
-| `wso2.deployment.wso2microgw.resources.requests.memory`                     | The minimum amount of memory that should be allocated for a Pod                           | 1Gi                          |
-| `wso2.deployment.wso2microgw.resources.requests.cpu`                        | The minimum amount of CPU that should be allocated for a Pod                              | 2000m                        |
-| `wso2.deployment.wso2microgw.resources.limits.memory`                       | The maximum amount of memory that should be allocated for a Pod                           | 2Gi                          |
-| `wso2.deployment.wso2microgw.resources.limits.cpu`                          | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+| `wso2.deployment.wso2microIntegrator.dockerRegistry`                                | Docker registry of the micro-integrator image                                                 | ""                          |
+| `wso2.deployment.wso2microIntegrator.imageName`                                     | Image name for micro-integrator node                                                          | ""                          |
+| `wso2.deployment.wso2microIntegrator.imageTag`                                      | Image tag for micro-integrator node                                                           | ""                          |
+| `wso2.deployment.wso2microIntegrator.replicas`                                      | Number of replicas for micro-integrator node                                                  | 1                           |
+| `wso2.deployment.wso2microIntegrator.minReadySeconds`                               | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 1  75                        |
+| `wso2.deployment.wso2microIntegrator.strategy.rollingUpdate.maxSurge`               | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 1                           |
+| `wso2.deployment.wso2microIntegrator.strategy.rollingUpdate.maxUnavailable`         | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                           |
+| `wso2.deployment.wso2microIntegrator.livenessProbe.initialDelaySeconds`             | Initial delay for the live-ness probe for micro-integrator node                               | 40                           |
+| `wso2.deployment.wso2microIntegrator.livenessProbe.periodSeconds`                   | Period of the live-ness probe for micro-integrator node                                       | 10                           |
+| `wso2.deployment.wso2microIntegrator.readinessProbe.initialDelaySeconds`            | Initial delay for the readiness probe for micro-integrator node                               | 40                           |
+| `wso2.deployment.wso2microIntegrator.readinessProbe.periodSeconds`                  | Period of the readiness probe for micro-integrator node                                       | 10                           |
+| `wso2.deployment.wso2microIntegrator.imagePullPolicy`                               | Refer to [doc](https://kubernetes.io/docs/concepts/containers/images#updating-images)     | Always                       |
+| `wso2.deployment.wso2microIntegrator.resources.requests.memory`                     | The minimum amount of memory that should be allocated for a Pod                           | 1Gi                          |
+| `wso2.deployment.wso2microIntegrator.resources.requests.cpu`                        | The minimum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+| `wso2.deployment.wso2microIntegrator.resources.limits.memory`                       | The maximum amount of memory that should be allocated for a Pod                           | 2Gi                          |
+| `wso2.deployment.wso2microIntegrator.resources.limits.cpu`                          | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
 
-**Note**: The above mentioned default, minimum resource amounts for running WSO2 API Microgateway are based on its [official documentation](https://docs.wso2.com/display/MG301/Installation+Prerequisites#InstallationPrerequisites-MicrogatewayRuntime).
-
-##### 3. Deploy WSO2 Identity server.
+##### 3. Deploy WSO2 Micro Integrator.
 
 ```
 helm install --dep-up --name <RELEASE_NAME> <HELM_HOME> --namespace <NAMESPACE>
@@ -89,11 +88,11 @@ helm install --dep-up --name <RELEASE_NAME> <HELM_HOME> --namespace <NAMESPACE>
 
 `NAMESPACE` should be the Kubernetes Namespace in which the resources are deployed
 
-##### 4. Access Management Console.
+##### 4. Access Micro Integrator.
 
-Default deployment will expose `<RELEASE_NAME>` host (to expose Administrative services and Management Console).
+Default deployment will expose `<RELEASE_NAME>` as the host.
 
-To access the console in the environment,
+To access the Micro Integrator in the environment,
 
 a. Obtain the external IP (`EXTERNAL-IP`) of the Ingress resources by listing down the Kubernetes Ingresses.
 
@@ -102,8 +101,8 @@ kubectl get ing -n <NAMESPACE>
 ```
 
 ```
-NAME                       HOSTS                ADDRESS        PORTS     AGE
-wso2micro-gw-ingress       <RELEASE_NAME>       <EXTERNAL-IP>  80, 443   3m
+NAME                                     HOSTS                ADDRESS        PORTS     AGE
+<RELEASE_NAME>-wso2micro-integrator      <RELEASE_NAME>       <EXTERNAL-IP>  80, 443   3m
 ```
 
 b. Add the above host as an entry in /etc/hosts file as follows:
