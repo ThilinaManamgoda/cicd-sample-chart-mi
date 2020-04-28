@@ -12,4 +12,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-exit 0
+ endpoint=http://wso2mi-staging-micro-integrator.wso2mi-staging.svc.cluster.local:8290/services/HelloWorld
+ response=$(curl --write-out %{http_code} --silent --output /dev/null -k $endpoint);
+
+ if [ $response -eq 200 ]
+ then
+     echo "Test Passed";
+     exit 0;
+ else
+     echo "Test Failed";
+     exit 1;
+ fi
+#exit 0
