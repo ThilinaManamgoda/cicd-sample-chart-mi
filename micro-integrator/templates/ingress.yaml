@@ -17,10 +17,10 @@ kind: Ingress
 metadata:
   name: {{ include "micro-integrator.fullname" . }}
   namespace : {{ .Release.Namespace }}
-  {{- if .Values.wso2.ingress.annotations }}
+{{- if .Values.wso2.ingress.annotations }}
   annotations:
-   {{ toYaml .Values.wso2.ingress.annotations | indent 4 }}
-  {{- end }}
+{{ toYaml .Values.wso2.ingress.annotations | indent 4 }}
+{{- end }}
 spec:
   tls:
     - hosts:
