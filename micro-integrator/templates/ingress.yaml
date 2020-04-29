@@ -24,9 +24,9 @@ metadata:
 spec:
   tls:
     - hosts:
-        - {{ include "micro-integrator.ingressHost" . | quote }}
+        - {{ .Values.wso2.ingress.host | default .Release.Name | quote }}
   rules:
-    - host: {{ include "micro-integrator.ingressHost" . | quote }}
+    - host: {{ .Values.wso2.ingress.host | default .Release.Name | quote }}
       http:
         paths:
           - path: /

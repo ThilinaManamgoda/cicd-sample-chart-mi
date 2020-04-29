@@ -55,14 +55,3 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
-
-{{/*
-Define Ingress host.
-*/}}
-{{- define "micro-integrator.ingressHost" -}}
-{{- if .Values.wso2.ingress.host -}}
-{{- .Values.wso2.ingress.host -}}
-{{- else -}}
-{{- printf "%s" .Release.Name -}}
-{{- end -}}
-{{- end -}}

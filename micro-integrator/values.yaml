@@ -61,7 +61,7 @@ wso2:
   # Configure Ingress for the Micro integrator deployment.
   ingress:
     # Hostname for the Micro Integrator.
-    #host:
+    host:
     # Annotations for the Micro Integrator Ingress.
     annotations:
       ingress.kubernetes.io/ssl-redirect: 'true'
