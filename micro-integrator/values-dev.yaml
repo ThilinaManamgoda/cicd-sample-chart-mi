@@ -58,6 +58,8 @@ wso2:
           memory: "1Gi"
           # The maximum amount of CPU that should be allocated for a Pod
           cpu: "2000m"
+      envs:
+        TEST: "testing"
   # Configure Ingress for the Micro integrator deployment.
   ingress:
     # Hostname for the Micro Integrator.
