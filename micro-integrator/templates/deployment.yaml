@@ -15,9 +15,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "micro-integrator.fullname" . }}
-  namespace : {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
-{{ include "micro-integrator.labels" . | indent 4 }}
+  {{ include "micro-integrator.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.wso2.deployment.wso2microIntegrator.replicas }}
   minReadySeconds: {{ .Values.wso2.deployment.wso2microIntegrator.minReadySeconds }}
@@ -69,7 +69,6 @@ spec:
             - "-c"
             - |
               set -e
-              cp deployment.toml /home/wso2carbon/wso2mi-1.2.0/conf/ && \
               ./docker-entrypoint.sh
           livenessProbe:
             exec:
@@ -100,11 +99,15 @@ spec:
           ports:
             - containerPort: 8290
               protocol: TCP
+          {{- if .Values.wso2.deployment.wso2microIntegrator.envs }}
+          env:
+            {{- range $key, $val := .Values.wso2.deployment.wso2microIntegrator.envs }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+          {{- end}}
+          {{- end }}
+          {{ if .Values.wso2.centralizedLogging.enabled }}
           volumeMounts:
-            - name: wso2micro-integrator-conf
-              mountPath: /home/wso2carbon/deployment.toml
-              subPath: deployment.toml
-            {{ if .Values.wso2.centralizedLogging.enabled }}
             - name: shared-logs
               mountPath: /home/wso2carbon/wso2mi-1.2.0/repository/logs
         - name: wso2micro-integrator-logstash
@@ -139,16 +142,13 @@ spec:
                   key: password
             - name: ELASTICSEARCH_HOST
               value: {{ .Values.wso2.centralizedLogging.logstash.elasticsearch.host }}
-      {{ end }}
+        {{ end }}
       {{ if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
         - name: wso2micro-integrator-deployment-creds
       {{ end }}
+      {{ if .Values.wso2.centralizedLogging.enabled }}
       volumes:
-        - name: wso2micro-integrator-conf
-          configMap:
-            name: wso2micro-integrator-conf
-        {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: shared-logs
           emptyDir: {}
         - name: logstash-yml
@@ -162,4 +162,4 @@ spec:
         - name: logstash-elasticsearch-creds
           secret:
             secretName: logstash-elasticsearch-creds
-  {{ end }}
+      {{ end }}
