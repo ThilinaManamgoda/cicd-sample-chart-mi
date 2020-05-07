@@ -17,7 +17,7 @@ metadata:
   name: {{ include "micro-integrator.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-  {{ include "micro-integrator.labels" . | indent 4 }}
+{{ include "micro-integrator.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.wso2.deployment.wso2microIntegrator.replicas }}
   minReadySeconds: {{ .Values.wso2.deployment.wso2microIntegrator.minReadySeconds }}
@@ -36,7 +36,7 @@ spec:
         deployment: {{ template "micro-integrator.fullname" . }}
         app: {{ .Release.Name }}
     spec:
-      {{ if .Values.wso2.centralizedLogging.enabled }}
+      {{- if .Values.wso2.centralizedLogging.enabled }}
       initContainers:
         - name: init-logstash-plugins-install
           image: "docker.elastic.co/logstash/logstash:{{ .Values.wso2.centralizedLogging.logstash.imageTag }}"
@@ -52,7 +52,7 @@ spec:
         - name: init-elasticsearch
           image: busybox:1.31
           command: ['sh', '-c', 'echo -e "Checking for the availability of Elasticsearch Server deployment"; while ! nc -z {{ .Values.wso2.centralizedLogging.logstash.elasticsearch.host }} 9200; do sleep 1; printf "-"; done; echo -e "  >> Elasticsearch server has started";']
-      {{ end }}
+      {{- end }}
       containers:
         - name: wso2micro-integrator
           {{- if .Values.wso2.deployment.wso2microIntegrator.dockerRegistry }}
@@ -60,9 +60,9 @@ spec:
           {{- $tag := .Values.wso2.deployment.wso2microIntegrator.imageTag }}
           {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
           {{- else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-          image: wso2/{{ .Values.wso2.deployment.wso2microIntegrator.imageName }}:{{ .Values.wso2.deployment.wso2microIntegrator.imageTag }}
+          image: "wso2/{{ .Values.wso2.deployment.wso2microIntegrator.imageName }}:{{ .Values.wso2.deployment.wso2microIntegrator.imageTag }}"
           {{- else }}
-          image: docker.wso2.com/{{ .Values.wso2.deployment.wso2microIntegrator.imageName }}:{{ .Values.wso2.deployment.wso2microIntegrator.imageTag }}
+          image: "docker.wso2.com/{{ .Values.wso2.deployment.wso2microIntegrator.imageName }}:{{ .Values.wso2.deployment.wso2microIntegrator.imageTag }}"
           {{- end }}
           command:
             - /bin/sh
@@ -104,9 +104,9 @@ spec:
             {{- range $key, $val := .Values.wso2.deployment.wso2microIntegrator.envs }}
             - name: {{ $key }}
               value: {{ $val | quote }}
-          {{- end}}
+            {{- end }}
           {{- end }}
-          {{ if .Values.wso2.centralizedLogging.enabled }}
+        {{- if .Values.wso2.centralizedLogging.enabled }}
           volumeMounts:
             - name: shared-logs
               mountPath: /home/wso2carbon/wso2mi-1.2.0/repository/logs
@@ -142,12 +142,12 @@ spec:
                   key: password
             - name: ELASTICSEARCH_HOST
               value: {{ .Values.wso2.centralizedLogging.logstash.elasticsearch.host }}
-        {{ end }}
-      {{ if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
+        {{- end }}
+      {{- if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
         - name: wso2micro-integrator-deployment-creds
-      {{ end }}
-      {{ if .Values.wso2.centralizedLogging.enabled }}
+      {{- end }}
+      {{- if .Values.wso2.centralizedLogging.enabled }}
       volumes:
         - name: shared-logs
           emptyDir: {}
@@ -162,4 +162,4 @@ spec:
         - name: logstash-elasticsearch-creds
           secret:
             secretName: logstash-elasticsearch-creds
-      {{ end }}
+      {{- end }}
