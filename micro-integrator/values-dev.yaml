@@ -50,14 +50,14 @@ wso2:
       resources:
         requests:
           # The minimum amount of memory that should be allocated for a Pod
-          memory: "256Mi"
+          memory: "512Mi"
           # The minimum amount of CPU that should be allocated for a Pod
-          cpu: "2000m"
+          cpu: "500m"
         limits:
           # The maximum amount of memory that should be allocated for a Pod
           memory: "1Gi"
           # The maximum amount of CPU that should be allocated for a Pod
-          cpu: "2000m"
+          cpu: "1000m"
       envs:
         HOSTNAME: "localhost-sample"
   # Configure Ingress for the Micro integrator deployment.
